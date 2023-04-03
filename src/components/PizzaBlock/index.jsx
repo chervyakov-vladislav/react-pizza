@@ -15,7 +15,7 @@ const PizzaBlock = (props) => {
         <ul>
           {
             props.types.map((type, index) =>
-              <li onClick={() => setPastryType(index)} className={index === activePastry ? 'active' : ''}>
+              <li key={type} onClick={() => setPastryType(index)} className={index === activePastry ? 'active' : ''}>
                 {pastryType[type]}
               </li>
             )
@@ -24,7 +24,7 @@ const PizzaBlock = (props) => {
         <ul>
           {
             props.sizes.map((size, index) =>
-              <li onClick={() => setActiveSize(index)} className={index === activeSize ? 'active' : ''}>
+              <li key={size} onClick={() => setActiveSize(index)} className={index === activeSize ? 'active' : ''}>
                 {size} см.
               </li>
             )
@@ -45,5 +45,5 @@ const PizzaBlock = (props) => {
       </div>
     </div>
   )
-}
+};
 export default PizzaBlock;

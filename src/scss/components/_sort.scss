@@ -8,6 +8,7 @@
 
     svg {
       margin-right: 8px;
+      transition: transform .3s;
     }
 
     b {
@@ -18,10 +19,16 @@
       color: $orange;
       border-bottom: 1px dashed $orange;
       cursor: pointer;
+      user-select: none;
     }
   }
 
+  &__rotate {
+    transform: rotate(180deg);
+  }
+
   &__popup {
+    user-select: none;
     position: absolute;
     right: 0;
     margin-top: 15px;
