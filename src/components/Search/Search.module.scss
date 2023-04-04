@@ -1,0 +1,56 @@
+.label {
+  display: flex;
+  position: relative;
+  cursor: pointer;
+  margin: 0 10px;
+
+    &:hover {
+      .icon {
+        opacity: .7;
+      }
+    }
+
+    @media (max-width: 1000px) {
+      margin-top: 10px;
+    }
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  opacity: .5;
+  transition: opacity .3s;
+}
+
+.input {
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 12px 20px 12px 50px;
+  font-size: 16px;
+  outline: none;
+  width: 280px;
+  transition: .3s ease-in-out;
+
+  @media (max-width: 1000px) {
+    &:focus {
+      width: 320px;
+    }
+    
+  }
+}
+
+.close {
+  position: absolute;
+  width: 20px;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  opacity: .5;
+  transition: opacity .3s;
+
+    &:hover {
+      opacity: .7;
+    }
+}
