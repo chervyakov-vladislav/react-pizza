@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 
 import Categories from '../components/Categories';
 import PizzaBlock from '../components/PizzaBlock';
 import PizzaSkeleton from '../components/PizzaBlock/PizzaSkeleton';
 import Sort from '../components/Sort';
 import { Pagination } from '../components/Pagination';
-import { useContext } from 'react';
 import { SearchContext } from '../App';
 
 const Home = () => {
@@ -43,15 +42,15 @@ const Home = () => {
 
   return (
     <div className="container">
+      <h2 className="content__title">Все пиццы</h2>
       <div className="content__top">
         <Categories value={categoryId} onClickCategory={setCategoryId} />
         <Sort value={activeSort} onClickSort={setActiveSort} />
       </div>
-      <h2 className="content__title">Все пиццы</h2>
+      <Pagination currentPage={currentPage} onChangePage={setCurrntPage} />
       <div className="content__items">
         {isLoading ? skeletons : pizzasContent}
       </div>
-      <Pagination currentPage={currentPage} onChangePage={setCurrntPage} />
     </div>
   )
 };
