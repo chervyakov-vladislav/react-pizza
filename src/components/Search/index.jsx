@@ -1,10 +1,33 @@
-import { useContext } from 'react';
+import { useCallback, useContext, useRef, useState } from 'react';
+import debounce from 'lodash.debounce';
+
 import styles from './Search.module.scss';
+
 import { SearchContext } from '../../App';
 
 
 const Search = () => {
+  const [localValue, setLocalValue] = useState('');
   const { searchValue, setSearchValue } = useContext(SearchContext);
+  const inputRef = useRef();
+
+  const onClear = () => {
+    setSearchValue('');
+    setLocalValue('');
+    inputRef.current.focus();
+  }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const updateSearchValue = useCallback(
+    debounce((str) => {
+      setSearchValue(str)
+    }, 1000)
+    , []);
+
+  const onChange = (e) => {
+    setLocalValue(e.target.value);
+    updateSearchValue(e.target.value);
+  }
 
   return (
     <label className={styles.label}>
@@ -22,15 +45,16 @@ const Search = () => {
         <line x1="21" x2="16.65" y1="21" y2="16.65" />
       </svg>
       <input
-        value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
+        ref={inputRef}
+        value={localValue}
+        onChange={onChange}
         className={styles.input}
         type="text"
         placeholder="Поиск пиццы..."
       />
       {searchValue && (
         <svg
-          onClick={() => setSearchValue('')}
+          onClick={onClear}
           className={styles.close}
           viewBox="0 0 512 512"
           xmlns="http://www.w3.org/2000/svg"
