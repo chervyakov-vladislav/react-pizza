@@ -1,7 +1,6 @@
-import { useEffect, useState, useContext, useRef } from 'react';
+import { useEffect, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 import qs from 'qs';
 
 import { setFilters } from '../redux/slices/filterSlice'
@@ -12,6 +11,7 @@ import PizzaSkeleton from '../components/PizzaBlock/PizzaSkeleton';
 import Sort, { sortArr } from '../components/Sort';
 import { Pagination } from '../components/Pagination';
 import { SearchContext } from '../App';
+import { fetchPizzas } from '../redux/slices/pizzasSlice';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -19,25 +19,22 @@ const Home = () => {
   const isSearch = useRef(false);
   const isMounted = useRef(false);
   const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
+  const { pizzas, status } = useSelector((state) => state.pizza);
 
   const { searchValue } = useContext(SearchContext);
-  const [pizzas, setPizzas] = useState([]);
 
-  const [isLoading, setIsLoading] = useState(true);
-
-  const fetchPizzas = () => {
-    setIsLoading(true);
-
-    const baseUrl = `https://642985ae5a40b82da4d4b14f.mockapi.io`;
+  const getPizzas = () => {
     const search = searchValue ? `&search=${searchValue}` : '';
     const category = categoryId > 0 ? `category=${categoryId}` : '';
 
-    axios
-      .get(`${baseUrl}/items?page=${currentPage}&limit=4&${category}&sortBy=${sort}&order=desc${search}`)
-      .then((res) => {
-        setPizzas(res.data);
-        setIsLoading(false);
-      });
+    dispatch(
+      fetchPizzas({
+        currentPage,
+        category,
+        sort,
+        search,
+      })
+    );
   };
 
   useEffect(() => {
@@ -76,7 +73,7 @@ const Home = () => {
     window.scrollTo(0, 0);
 
     if (!isSearch.current) {
-      fetchPizzas();
+      getPizzas();
     }
 
     isSearch.current = false;
@@ -94,9 +91,18 @@ const Home = () => {
         <Sort />
       </div>
       <Pagination />
-      <div className="content__items">
-        {isLoading ? skeletons : pizzasContent}
-      </div>
+
+      {status === 'error' ? (
+        <div className="content__error-info">
+          <h2>Произошла ошибка 😕</h2>
+          <p>К сожалению, не удалось получить питсы. Попробуйте повторить попытку позже.</p>
+        </div>
+      ) : (
+        <div className="content__items">
+          {status === 'loading' ? skeletons : pizzasContent}
+        </div>
+      )
+      }
     </div>
   )
 };
