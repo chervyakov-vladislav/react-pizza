@@ -55,6 +55,7 @@ const Home = () => {
 
       isSearch.current = true;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -68,17 +69,18 @@ const Home = () => {
       navigate(`?${queryString}`);
     }
     isMounted.current = true;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryId, sort, currentPage]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
 
     if (!isSearch.current) {
-      console.log('asdasd');
       fetchPizzas();
     }
 
     isSearch.current = false;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryId, sort, searchValue, currentPage]);
 
   const skeletons = [...new Array(4)].map((_, index) => <PizzaSkeleton key={index} />);
