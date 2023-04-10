@@ -12,7 +12,7 @@ const Search = () => {
   const inputRef = useRef();
 
   const onClear = () => {
-    dispatch(setSearchValue(''));
+    dispatch(setSearchValue({ searchValue: '' }));
     setLocalValue('');
     inputRef.current.focus();
   }
@@ -20,7 +20,7 @@ const Search = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateSearchValue = useCallback(
     debounce((str) => {
-      dispatch(setSearchValue(str));
+      dispatch(setSearchValue({ searchValue: str }));
     }, 1000)
     , []);
 
