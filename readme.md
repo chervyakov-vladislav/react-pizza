@@ -10,7 +10,3 @@ npm i -> npm start
 - **TypeScript**
 - **Redux Toolkit** 
 - **React Router v6** 
-- **Axios + Fetch** 
-- **Prettier** 
-- Lodash.Debounce
-- Code Splitting, React Loadable, useWhyDidYouUpdate

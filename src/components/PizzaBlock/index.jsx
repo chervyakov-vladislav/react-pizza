@@ -1,13 +1,13 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { addProduct } from '../../redux/slices/cartSlice';
+import { addProduct, selectCartById } from '../../redux/slices/cartSlice';
 
 export const pastryType = ['тонкое', 'традиционное'];
 
 const PizzaBlock = (props) => {
   const dispatch = useDispatch();
-  const { count } = useSelector((state) => state.cart.products.find((obj) => obj.id === props.id)) || 0;
+  const { count } = useSelector(selectCartById(props.id)) || 0;
   const [activePastry, setPastryType] = React.useState(0);
   const [activeSize, setActiveSize] = React.useState(0);
 
