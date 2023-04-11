@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 
 import { addProduct, selectCartById } from '../../redux/slices/cartSlice';
+import { PizzaBlockInteface } from '../../@types/types';
 
 export const pastryType = ['тонкое', 'традиционное'];
 
-const PizzaBlock = (props) => {
+export const PizzaBlock: React.FC<PizzaBlockInteface> = (props) => {
   const dispatch = useDispatch();
   const { count } = useSelector(selectCartById(props.id)) || 0;
   const [activePastry, setPastryType] = React.useState(0);
@@ -67,4 +68,3 @@ const PizzaBlock = (props) => {
     </div>
   )
 };
-export default PizzaBlock;

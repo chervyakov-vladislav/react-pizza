@@ -5,26 +5,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectFilter, setSearchValue } from '../../redux/slices/filterSlice';
 
 
-const Search = () => {
+export const Search: React.FC = () => {
   const dispatch = useDispatch();
   const { searchValue } = useSelector(selectFilter);
   const [localValue, setLocalValue] = useState('');
-  const inputRef = useRef();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const onClear = () => {
     dispatch(setSearchValue({ searchValue: '' }));
     setLocalValue('');
-    inputRef.current.focus();
+    inputRef.current?.focus();
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateSearchValue = useCallback(
-    debounce((str) => {
+    debounce((str: string) => {
       dispatch(setSearchValue({ searchValue: str }));
     }, 1000)
     , []);
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLocalValue(e.target.value);
     updateSearchValue(e.target.value);
   }
@@ -68,5 +68,3 @@ const Search = () => {
 
   )
 };
-
-export default Search;

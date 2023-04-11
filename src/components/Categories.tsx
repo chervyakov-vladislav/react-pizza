@@ -10,7 +10,7 @@ const categories = [
   'Закрытые',
 ]
 
-function Categories() {
+export const Categories: React.FC = () => {
   const { categoryId } = useSelector(selectFilter);
   const dispatch = useDispatch();
 
@@ -32,5 +32,3 @@ function Categories() {
     </div>
   );
 }
-
-export default Categories;

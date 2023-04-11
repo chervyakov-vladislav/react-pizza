@@ -5,10 +5,17 @@ import { clearCart, selectCart } from '../redux/slices/cartSlice';
 import { CartItem } from '../components/CartItem';
 import { CartEmpty } from '../components/CartEmpty';
 
-const Cart = () => {
+import { PizzaBlockInteface } from '../@types/types';
+
+interface CartBlockInteface extends Omit<PizzaBlockInteface, "types" | "sizes"> {
+  types: string;
+  sizes: string;
+}
+
+export const Cart: React.FC = () => {
   const dispatch = useDispatch();
   const { totalPrice, products } = useSelector(selectCart);
-  const count = products.reduce((sum, product) => sum + (product.count || 0), 0);
+  const count = products.reduce((sum: number, product: PizzaBlockInteface) => sum + (product.count || 0), 0);
 
   const onClearCart = () => {
     dispatch(clearCart());
@@ -39,7 +46,7 @@ const Cart = () => {
         </div>
         <div className="content__items">
           {
-            products.map((data) => <CartItem key={data.id} {...data} />)
+            products.map((data: CartBlockInteface) => <CartItem key={data.id} {...data} />)
           }
         </div>
         <div className="cart__bottom">
@@ -65,5 +72,3 @@ const Cart = () => {
 
   )
 };
-
-export default Cart;

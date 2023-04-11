@@ -1,13 +1,14 @@
 import { Link } from 'react-router-dom';
-import headerLogo from '../assets/img/pizza-logo.svg'
-import Search from './Search';
+import headerLogo from '../assets/img/pizza-logo.svg';
+import { Search } from './Search';
 import { useSelector } from 'react-redux';
 import { selectCart } from '../redux/slices/cartSlice';
+import { ItemType } from '../@types/types';
 
-function Header() {
+export const Header: React.FC = () => {
   const { totalPrice, products } = useSelector(selectCart);
 
-  const count = products.reduce((sum, product) => sum + (product.count || 0), 0);
+  const count = products.reduce((sum: number, product: ItemType) => sum + (product.count || 0), 0);
 
   return (
     <div className="header">
@@ -46,5 +47,3 @@ function Header() {
     </div>
   );
 }
-
-export default Header;

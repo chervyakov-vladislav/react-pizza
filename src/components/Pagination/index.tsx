@@ -11,7 +11,7 @@ const HARDCODE_PAGECOUNT = 3;
 // не написано решение для количества айтемов на одной странице под разные разрешения
 const HARDCODE_ITEMS_PER_PAGE = 4;
 
-export const Pagination = () => {
+export const Pagination: React.FC = () => {
   const dispatch = useDispatch();
   const { currentPage } = useSelector(selectFilter);
 

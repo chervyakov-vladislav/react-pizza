@@ -6,33 +6,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectFilter, setFilters } from '../redux/slices/filterSlice'
 import { fetchPizzas, selectPizza } from '../redux/slices/pizzasSlice';
 
-import Categories from '../components/Categories';
-import PizzaBlock from '../components/PizzaBlock';
-import PizzaSkeleton from '../components/PizzaBlock/PizzaSkeleton';
-import Sort, { sortArr } from '../components/Sort';
+import { Categories } from '../components/Categories';
+import { PizzaBlock } from '../components/PizzaBlock';
+import { PizzaSkeleton } from '../components/PizzaBlock/PizzaSkeleton';
+import { Sort, sortArr } from '../components/Sort';
 import { Pagination } from '../components/Pagination';
+import { PizzaBlockInteface } from '../@types/types';
 
-const Home = () => {
+export const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isSearch = useRef(false);
   const isMounted = useRef(false);
   const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
   const { pizzas, status } = useSelector(selectPizza);
-
-  const getPizzas = () => {
-    const search = searchValue ? `&search=${searchValue}` : '';
-    const category = categoryId > 0 ? `category=${categoryId}` : '';
-
-    dispatch(
-      fetchPizzas({
-        currentPage,
-        category,
-        sort,
-        search,
-      })
-    );
-  };
 
   useEffect(() => {
     if (window.location.search) {
@@ -49,8 +36,7 @@ const Home = () => {
 
       isSearch.current = true;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (isMounted.current) {
@@ -63,22 +49,35 @@ const Home = () => {
       navigate(`?${queryString}`);
     }
     isMounted.current = true;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categoryId, sort, currentPage]);
+  }, [categoryId, sort, currentPage, navigate]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    const getPizzas = () => {
+      const search = searchValue ? `&search=${searchValue}` : '';
+      const category = categoryId > 0 ? `category=${categoryId}` : '';
+
+      dispatch(
+        // @ts-ignore
+        fetchPizzas({
+          currentPage,
+          category,
+          sort,
+          search,
+        })
+      );
+    };
 
     if (!isSearch.current) {
       getPizzas();
     }
 
     isSearch.current = false;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categoryId, sort, searchValue, currentPage]);
+  }, [categoryId, sort, searchValue, currentPage, dispatch]);
 
   const skeletons = [...new Array(4)].map((_, index) => <PizzaSkeleton key={index} />);
-  const pizzasContent = pizzas.map((data) => <PizzaBlock key={data.id} {...data} />);
+  const pizzasContent = pizzas.map((data: PizzaBlockInteface) => <PizzaBlock key={data.id} {...data} />);
 
   return (
     <div className="container">
@@ -103,5 +102,3 @@ const Home = () => {
     </div>
   )
 };
-
-export default Home;
