@@ -2,20 +2,21 @@ import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import qs from 'qs';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { selectFilter, setFilters } from '../redux/slices/filterSlice'
+import { useSelector } from 'react-redux';
+import { FilterSliceState, selectFilter, setFilters } from '../redux/slices/filterSlice'
 import { fetchPizzas, selectPizza } from '../redux/slices/pizzasSlice';
+import { useAppDispatch } from '../redux/store';
 
 import { Categories } from '../components/Categories';
 import { PizzaBlock } from '../components/PizzaBlock';
 import { PizzaSkeleton } from '../components/PizzaBlock/PizzaSkeleton';
 import { Sort, sortArr } from '../components/Sort';
 import { Pagination } from '../components/Pagination';
-import { PizzaBlockInteface } from '../@types/types';
+import { LoadingStatus, PizzaBlockInteface } from '../@types/types';
 
 export const Home: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isSearch = useRef(false);
   const isMounted = useRef(false);
   const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
@@ -31,7 +32,7 @@ export const Home: React.FC = () => {
         setFilters({
           ...params,
           sort,
-        })
+        } as FilterSliceState)
       );
 
       isSearch.current = true;
@@ -59,11 +60,10 @@ export const Home: React.FC = () => {
       const category = categoryId > 0 ? `category=${categoryId}` : '';
 
       dispatch(
-        // @ts-ignore
         fetchPizzas({
-          currentPage,
+          currentPage: String(currentPage),
           category,
-          sort,
+          sort: sort.sortProperty,
           search,
         })
       );
@@ -88,14 +88,14 @@ export const Home: React.FC = () => {
       </div>
       <Pagination />
 
-      {status === 'error' ? (
+      {status === LoadingStatus.ERROR ? (
         <div className="content__error-info">
           <h2>Произошла ошибка 😕</h2>
           <p>К сожалению, не удалось получить питсы. Попробуйте повторить попытку позже.</p>
         </div>
       ) : (
         <div className="content__items">
-          {status === 'loading' ? skeletons : pizzasContent}
+          {status === LoadingStatus.LOADING ? skeletons : pizzasContent}
         </div>
       )
       }

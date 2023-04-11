@@ -1,14 +1,8 @@
 import { useDispatch } from 'react-redux';
 import { addProduct, minusProduct, removeProduct } from '../redux/slices/cartSlice';
-import { PizzaBlockInteface } from '../@types/types';
+import { ItemType } from '../@types/types';
 
-interface CartBlockInteface extends Omit<PizzaBlockInteface, "types" | "sizes"> {
-  types: string;
-  sizes: string;
-}
-
-
-export const CartItem: React.FC<CartBlockInteface> = (props) => {
+export const CartItem: React.FC<ItemType> = (props) => {
   const dispatch = useDispatch();
 
   const onClickPlus = () => {
@@ -46,7 +40,7 @@ export const CartItem: React.FC<CartBlockInteface> = (props) => {
       </div>
       <div className="cart__item-info">
         <h3>{props.title}</h3>
-        <p>{props.types} тесто, {props.sizes} см.</p>
+        <p>{props.type} тесто, {props.size} см.</p>
       </div>
       <div className="cart__item-count">
         <button onClick={onClickMinus} className="button button--outline button--circle cart__item-count-minus">

@@ -12,3 +12,9 @@ export interface PizzaBlockInteface extends ItemType {
   types: number[];
   sizes: number[];
 }
+
+export const enum LoadingStatus {
+  LOADING = 'loading',
+  SUCCESS = 'success',
+  ERROR = 'error',
+}

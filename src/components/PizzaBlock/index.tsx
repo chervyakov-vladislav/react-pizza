@@ -9,15 +9,15 @@ export const pastryType = ['тонкое', 'традиционное'];
 
 export const PizzaBlock: React.FC<PizzaBlockInteface> = (props) => {
   const dispatch = useDispatch();
-  const { count } = useSelector(selectCartById(props.id)) || 0;
+  const item = useSelector(selectCartById(props.id));
   const [activePastry, setPastryType] = React.useState(0);
   const [activeSize, setActiveSize] = React.useState(0);
 
   const onClickAdd = () => {
     const product = {
       ...props,
-      sizes: props.sizes[activeSize],
-      types: pastryType[activePastry],
+      size: props.sizes[activeSize],
+      type: pastryType[activePastry],
     };
 
     dispatch(addProduct({ product }))
@@ -61,7 +61,7 @@ export const PizzaBlock: React.FC<PizzaBlockInteface> = (props) => {
                 fill="white" />
             </svg>
             <span>Добавить</span>
-            {count && <i>{count}</i>}
+            {item?.count && <i>{item.count}</i>}
           </button>
         </div>
       </div>
