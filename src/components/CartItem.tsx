@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { addProduct, minusProduct, removeProduct } from '../redux/slices/cartSlice';
+import { addProduct, minusProduct, removeProduct } from '../redux/slices/cart/slice';
 import { ItemType } from '../@types/types';
 
 export const CartItem: React.FC<ItemType> = (props) => {

@@ -2,7 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 
-import { addProduct, selectCartById } from '../../redux/slices/cartSlice';
+import { addProduct } from '../../redux/slices/cart/slice';
+import { selectCartById } from '../../redux/slices/cart/selectors';
+
 import { PizzaBlockInteface } from '../../@types/types';
 
 export const pastryType = ['тонкое', 'традиционное'];

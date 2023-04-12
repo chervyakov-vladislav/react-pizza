@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { selectFilter, setCurrentPage } from '../../redux/slices/filterSlice';
+import { setCurrentPage } from '../../redux/slices/filter/slice';
+import { selectFilter } from '../../redux/slices/filter/selectors';
 
 import ReactPaginate from 'react-paginate';
 

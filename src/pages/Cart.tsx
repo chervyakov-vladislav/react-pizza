@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { selectCart } from '../redux/slices/cart/selectors';
+import { clearCart } from '../redux/slices/cart/slice';
 
-import { clearCart, selectCart } from '../redux/slices/cartSlice';
-import { CartItem } from '../components/CartItem';
-import { CartEmpty } from '../components/CartEmpty';
+import { CartItem, CartEmpty } from '../components';
 
 import { ItemType } from '../@types/types';
 
-export const Cart: React.FC = () => {
+const Cart: React.FC = () => {
   const dispatch = useDispatch();
   const { totalPrice, products } = useSelector(selectCart);
   const count = products.reduce((sum: number, product: ItemType) => sum + (product.count || 0), 0);
@@ -67,3 +67,5 @@ export const Cart: React.FC = () => {
 
   )
 };
+
+export default Cart;

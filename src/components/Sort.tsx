@@ -1,6 +1,8 @@
+import React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectFilter, setActiveSort } from '../redux/slices/filterSlice';
+import { setActiveSort } from '../redux/slices/filter/slice';
+import { selectFilter } from '../redux/slices/filter/selectors';
 
 type SortItem = {
   name: string;
@@ -13,7 +15,7 @@ export const sortArr: SortItem[] = [
   { name: 'алфавиту', sortProperty: 'title' },
 ];
 
-export const Sort: React.FC = () => {
+export const Sort: React.FC = React.memo(() => {
   const dispatch = useDispatch();
   const { sort } = useSelector(selectFilter);
   const [isVisiblePopup, setIsVisiblePopup] = useState(false);
@@ -69,4 +71,4 @@ export const Sort: React.FC = () => {
       )}
     </div>
   );
-}
+});
